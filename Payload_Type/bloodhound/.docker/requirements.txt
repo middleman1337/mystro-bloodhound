@@ -1,2 +1,2 @@
-mythic-container==0.5.31
+mythic-container==0.7.0rc9
 requests

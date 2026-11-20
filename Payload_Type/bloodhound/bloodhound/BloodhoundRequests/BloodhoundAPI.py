@@ -1,6 +1,7 @@
 from mythic_container.MythicCommandBase import *
 from bloodhound.BloodhoundRequests.BloodhoundAPIClasses import *
 from mythic_container.MythicRPC import *
+import os
 
 cachedAssetGroupOwnedID = None
 BLOODHOUND_API_KEY = "BLOODHOUND_API_KEY"
@@ -29,6 +30,9 @@ async def query_bloodhound(taskData: PTTaskMessageAllData, uri: str, method: str
         token_key = taskData.Secrets[BLOODHOUND_API_KEY]
     if BLOODHOUND_API_ID in taskData.Secrets:
         token_id = taskData.Secrets[BLOODHOUND_API_ID]
+    token_id = os.environ.get("BLOODHOUND_API_ID") or token_id
+    token_key = os.environ.get("BLOODHOUND_API_KEY") or token_key
+    url = os.environ.get("BLOODHOUND_URL") or url
     if not checkValidValues(token_id, token_key, url):
         if token_id == "" or token_id is None:
             return 500, "Missing BLOODHOUND_API_ID in user's secrets"
